@@ -6,11 +6,12 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "jest test",
-    "test:watch": "jest test --watch"
+    "test": "jest test --reporters default jest-stare",
+    "test:watch": "jest test --reporters default jest-stare --watch --watchPathIgnorePatterns=jest-stare"
   },
   "devDependencies": {
-    "jest": "^26.5.3"
+    "jest": "^26.5.3",
+    "jest-stare": "^2.2.0"
   },
   "dependencies": {
     "@splitsoftware/splitio": "^10.15.0"
