@@ -79,8 +79,8 @@ function withFeatureFlagOff(featureCheckName,fn){
   });
 }
 
-function createFixedFeatureFlags(featureChecName,fixedFlagState){
+function createFixedFeatureFlags(featureCheckName,fixedFlagState){
   return {
-    [featureChecName]: ()=> fixedFlagState
+    [featureCheckName]: ()=> fixedFlagState
   };
 }
