@@ -58,7 +58,6 @@ describe("UserProfile", ()=> {
       expect(secondResult).toEqual(firstResult);
     });
   });
-  
 });
 
 function withFeatureFlagInvariant(featureCheckName,fn){
@@ -83,11 +82,5 @@ function withFeatureFlagOff(featureCheckName,fn){
 function createFixedFeatureFlags(featureChecName,fixedFlagState){
   return {
     [featureChecName]: ()=> fixedFlagState
-  };
-}
-
-function createFakeFeatureFlags(overrides={}){
-  return {
-    shouldCacheUserProfile: ()=> overrides.shouldCacheUserProfile
   };
 }
