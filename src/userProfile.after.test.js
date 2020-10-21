@@ -1,7 +1,7 @@
-const UserProfile = require('./userProfile');
+const UserProfile = require('./cachingUserProfile');
 
 describe("UserProfile", ()=> {
-  withFeatureFlagInvariant('shouldCacheUserProfile', (fakeFeatureFlags)=>{
+  describeFeatureFlagInvariant('shouldCacheUserProfile', (fakeFeatureFlags)=>{
     it('makes a call to the user service with the appropriate userId', async ()=> {
       const fakeUserService = {
         fetchUserDetails: jest.fn()
@@ -20,7 +20,7 @@ describe("UserProfile", ()=> {
     });
   });
 
-  withFeatureFlagOff('shouldCacheUserProfile', (fakeFeatureFlags)=>{
+  describeFeatureFlagOff('shouldCacheUserProfile', (fakeFeatureFlags)=>{
     it('calls the user service every time', async ()=> {
       const fakeUserService = {
         fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
@@ -39,7 +39,7 @@ describe("UserProfile", ()=> {
     });
   });
 
-  withFeatureFlagOn('shouldCacheUserProfile', (fakeFeatureFlags)=>{
+  describeFeatureFlagOn('shouldCacheUserProfile', (fakeFeatureFlags)=>{
     it('calls the user service once, then returns cached result', async ()=> {
       const fakeUserService = {
         fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
@@ -60,19 +60,19 @@ describe("UserProfile", ()=> {
   });
 });
 
-function withFeatureFlagInvariant(featureCheckName,fn){
-  withFeatureFlagOn(featureCheckName,fn);
-  withFeatureFlagOff(featureCheckName,fn);
+function describeFeatureFlagInvariant(featureCheckName,fn){
+  describeFeatureFlagOn(featureCheckName,fn);
+  describeFeatureFlagOff(featureCheckName,fn);
 }
 
-function withFeatureFlagOn(featureCheckName,fn){
+function describeFeatureFlagOn(featureCheckName,fn){
   describe(`with feature ${featureCheckName} on`, ()=>{
     const featureFlags = createFixedFeatureFlags(featureCheckName,true);
     fn(featureFlags);
   });
 }
 
-function withFeatureFlagOff(featureCheckName,fn){
+function describeFeatureFlagOff(featureCheckName,fn){
   describe(`with feature ${featureCheckName} off`, ()=>{
     const featureFlags = createFixedFeatureFlags(featureCheckName,false);
     fn(featureFlags);

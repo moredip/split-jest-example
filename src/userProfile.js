@@ -1,29 +1,17 @@
 module.exports = class UserProfile{
-  constructor({userService,featureFlags}){
+  constructor({userService}){
     this.userService = userService; 
-    this.featureFlags = featureFlags;
-    this.responseCache = new Map();
   }
 
   async getUser(userId){
-    if(this.featureFlags.shouldCacheUserProfile()){
-      return this.getUserWithCache(userId);
-    }else{
-      return this.getUserWithoutCache(userId);
-    }
+    const response  = await this.userService.fetchUserDetails(userId);
+    return this.transformResponse(response);
   }
 
-  async getUserWithCache(userId){
-    if(this.responseCache.has(userId)){
-      return this.responseCache.get(userId);
-    }
-
-    const response = this.getUserWithoutCache(userId);
-    this.responseCache.set(userId,response);
+  transformResponse(response){
+    // in a real system, we'd do some logic here to
+    // pull out the information we care about in a nice
+    // format
     return response;
-  }
-
-  async getUserWithoutCache(userId){
-    return await this.userService.fetchUserDetails(userId);
   }
 }

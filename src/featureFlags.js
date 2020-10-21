@@ -1,6 +1,6 @@
 module.exports = class FeatureFlags{
   shouldCacheUserProfile(){
-    // TODO: add a real feature flagging framework
+    // TODO: add an actual feature flagging framework :)
     return false;
   }
 }

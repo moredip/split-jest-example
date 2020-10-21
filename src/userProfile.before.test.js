@@ -1,4 +1,4 @@
-const UserProfile = require('./userProfile');
+const UserProfile = require('./cachingUserProfile');
 
 describe("UserProfile", ()=> {
   let fakeFeatureFlags; 
@@ -24,7 +24,7 @@ describe("UserProfile", ()=> {
 
     it('calls the user service every time', async ()=> {
       const fakeUserService = {
-        fetchUserDetails: jest.fn().mockReturnValue({})
+        fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
       };
 
       const userProfile = new UserProfile({
