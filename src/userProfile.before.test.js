@@ -1,16 +1,20 @@
 const UserProfile = require('./cachingUserProfile');
 
 describe("UserProfile", ()=> {
-  let fakeFeatureFlags; 
+  let fakeUserService;
+  beforeEach( ()=>{
+    fakeUserService = {
+      fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
+    };
+  });
+
   describe("with caching off", ()=> {
+    let fakeFeatureFlags;
     beforeEach( ()=>{
       fakeFeatureFlags = createFakeFeatureFlags({shouldCacheUserProfile:false});
     });
 
     it('makes a call to the user service with the appropriate userId', async ()=> {
-      const fakeUserService = {
-        fetchUserDetails: jest.fn()
-      };
       const someUserId = 123;
 
       const userProfile = new UserProfile({
@@ -23,10 +27,6 @@ describe("UserProfile", ()=> {
     });
 
     it('calls the user service every time', async ()=> {
-      const fakeUserService = {
-        fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
-      };
-
       const userProfile = new UserProfile({
         userService:fakeUserService,
         featureFlags:fakeFeatureFlags
@@ -40,14 +40,12 @@ describe("UserProfile", ()=> {
   });
 
   describe("with caching on", ()=> {
+    let fakeFeatureFlags;
     beforeEach( ()=>{
       fakeFeatureFlags = createFakeFeatureFlags({shouldCacheUserProfile:true});
     });
 
     it('makes a call to the user service with the appropriate userId', async ()=> {
-      const fakeUserService = {
-        fetchUserDetails: jest.fn()
-      };
       const someUserId = 123;
 
       const userProfile = new UserProfile({
@@ -60,10 +58,6 @@ describe("UserProfile", ()=> {
     });
 
     it('calls the user service once, then returns cached result', async ()=> {
-      const fakeUserService = {
-        fetchUserDetails: jest.fn().mockReturnValue({fake:"response"})
-      };
-
       const userProfile = new UserProfile({
         userService:fakeUserService,
         featureFlags:fakeFeatureFlags
